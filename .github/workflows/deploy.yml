@@ -3,7 +3,7 @@ on:
   - workflow_dispatch
 jobs:
   preview:
-    name: Preview
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,7 +13,7 @@ jobs:
       - name: Configure Azure CLI
         uses: azure/login@v1
         with:
-          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
       - run: npm install
       - uses: pulumi/actions@v3
         with:
