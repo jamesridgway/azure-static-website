@@ -13,7 +13,7 @@ jobs:
       - name: Configure Azure CLI
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
       - run: npm install
       - uses: pulumi/actions@v3
         with:
