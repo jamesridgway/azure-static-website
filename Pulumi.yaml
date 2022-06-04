@@ -1,0 +1,3 @@
+name: azure-static-website
+runtime: nodejs
+description: An Azure Static Website!
