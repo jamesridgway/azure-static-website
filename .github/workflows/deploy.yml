@@ -1,12 +1,19 @@
 name: Deploy Production
 on:
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      commit:
+        type: string
+        description: 'Commit ID to deploy'
+        required: true
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.commit }}
       - uses: actions/setup-node@v3.2.0
         with:
           node-version: 14.x
