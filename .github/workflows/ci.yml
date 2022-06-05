@@ -1,12 +1,12 @@
-name: Deploy Production
+name: CI
 on:
   push:
     branches:
     - main
 
 jobs:
-  preview:
-    name: Deploy
+  ci:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
