@@ -13,4 +13,4 @@ jobs:
       - uses: jamesridgway/github-actions-approval-request@main
         with:
          trigger-workflow: 27506981
-         notification-webhook-url: ${secrets.WEBHOOK_URL}
+         notification-webhook-url: ${{ secrets.WEBHOOK_URL }}
