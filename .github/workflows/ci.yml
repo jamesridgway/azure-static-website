@@ -9,12 +9,17 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      # Checkout source code
       - uses: actions/checkout@v3
+      # Setup node
       - uses: actions/setup-node@v3.2.0
         with:
           node-version: 14.x
+      # Install dependencies
       - run: npm install
+      # Run tests
       - run: npm test
+      # Deploy to staging
       - uses: pulumi/actions@v3
         with:
           command: up
@@ -25,6 +30,7 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      # Trigger an approval request via Microsoft Teams
       - uses: jamesridgway/github-actions-approval-request@main
         with:
          trigger-workflow: 27506981
