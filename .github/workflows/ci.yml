@@ -36,3 +36,4 @@ jobs:
          trigger-workflow: 27506981
          notification-webhook-url: ${{ secrets.WEBHOOK_URL }}
          github-actions-approval-api-url: ${{secrets.ACTIONS_APPROVAL_API_URL}} 
+         github-actions-approval-api-key: ${{secrets.ACTIONS_APPROVAL_API_KEY}} 
