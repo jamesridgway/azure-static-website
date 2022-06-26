@@ -1,20 +1,32 @@
-// Copyright 2016-2021, Pulumi Corporation.  All rights reserved.
-
 import * as cdn from "@pulumi/azure-native/cdn";
 import * as resources from "@pulumi/azure-native/resources";
 import * as storage from "@pulumi/azure-native/storage";
 import * as pulumi from "@pulumi/pulumi";
 
-const resourceGroup = new resources.ResourceGroup("resourceGroup");
+function shortStackIdentifier(str: string): string {
+    const stack = str.toLowerCase();
+    if (stack == 'production') {
+        return 'Prd'
+    }
+    if (stack == 'staging') {
+        return 'Stg'
+    }
+    throw new Error(`Stack name '${stack}' not recognised.`);
+}
 
-const profile = new cdn.Profile("profile", {
+const identifier = `DemoStaticWeb${shortStackIdentifier(pulumi.getStack())}`
+const storageAccIdnetifier = `DemoStatWeb${shortStackIdentifier(pulumi.getStack())}`.toLowerCase();
+
+const resourceGroup = new resources.ResourceGroup(identifier);
+
+const profile = new cdn.Profile(identifier, {
     resourceGroupName: resourceGroup.name,
     sku: {
         name: cdn.SkuName.Standard_Microsoft,
     },
 });
 
-const storageAccount = new storage.StorageAccount("storageaccount", {
+const storageAccount = new storage.StorageAccount(storageAccIdnetifier, {
     enableHttpsTrafficOnly: true,
     kind: storage.Kind.StorageV2,
     resourceGroupName: resourceGroup.name,
@@ -24,7 +36,7 @@ const storageAccount = new storage.StorageAccount("storageaccount", {
 });
 
 // Enable static website support
-const staticWebsite = new storage.StorageAccountStaticWebsite("staticWebsite", {
+const staticWebsite = new storage.StorageAccountStaticWebsite(identifier, {
     accountName: storageAccount.name,
     resourceGroupName: resourceGroup.name,
     indexDocument: "index.html",
@@ -47,8 +59,8 @@ export const staticEndpoint = storageAccount.primaryEndpoints.web;
 
 // Optionally, add a CDN.
 const endpointOrigin = storageAccount.primaryEndpoints.apply(ep => ep.web.replace("https://", "").replace("/", ""));
-const endpoint = new cdn.Endpoint("endpoint", {
-    endpointName: storageAccount.name.apply(sa => `cdn-endpnt-${sa}`),
+const endpoint = new cdn.Endpoint(identifier, {
+    endpointName: storageAccount.name.apply(sa => `CdnEndpoint${sa}`),
     isHttpAllowed: false,
     isHttpsAllowed: true,
     originHostHeader: endpointOrigin,
