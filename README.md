@@ -3,7 +3,7 @@ This is an example Azure Static Website that is designed to illustrate a deploym
 
 How this works is discussed in the following blog post in extensive detail:
 
-* Approving Builds and Workflows with GitHub Actions and Microsoft Teams
+* (Approving Builds and Workflows with GitHub Actions and Microsoft Teams)[https://www.jamesridgway.co.uk/approving-builds-and-workflows-with-github-actions-and-microsoft-teams/]
 
 You may also want to take a look at the associated projects:
 
